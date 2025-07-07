@@ -5,21 +5,20 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 git credentialsId: 'github-token', url: 'https://github.com/MoahmedRizlan333/jenkins-gcp-pipeline.git'
-
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t flask-app:latest .'
+                bat 'docker build -t flask-app:latest .'
             }
         }
 
         stage('Run Docker Container') {
             steps {
-                sh '''
-                    docker stop flask-container || true
-                    docker rm flask-container || true
+                bat '''
+                    docker stop flask-container || exit 0
+                    docker rm flask-container || exit 0
                     docker run -d -p 5000:5000 --name flask-container flask-app:latest
                 '''
             }

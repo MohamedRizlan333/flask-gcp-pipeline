@@ -4,7 +4,8 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/MoahmedRizlan333/jenkins-gcp-pipeline.git'
+                git credentialsId: 'github-token', url: 'https://github.com/MoahmedRizlan333/jenkins-gcp-pipeline.git'
+
             }
         }
 

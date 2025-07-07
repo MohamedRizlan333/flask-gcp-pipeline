@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git branch: 'main', url: 'https://github.com/YourUsername/jenkins-gcp-pipeline.git'
+                git branch: 'main', url: 'https://github.com/MohamedRizlan333/jenkins-gcp-pipeline.git'
             }
         }
         stage('Install Dependencies') {

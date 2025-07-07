@@ -2,27 +2,24 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone') {
+        stage('Clone Repository') {
             steps {
                 git branch: 'main', url: 'https://github.com/MoahmedRizlan333/jenkins-gcp-pipeline.git'
             }
         }
-        stage('Setup Python Environment') {
+
+        stage('Build Docker Image') {
             steps {
-                sh '''
-                    python3 -m venv venv
-                    source venv/bin/activate
-                    pip install --upgrade pip
-                    pip install -r requirements.txt
-                '''
+                sh 'docker build -t flask-app:latest .'
             }
         }
-        stage('Deploy') {
+
+        stage('Run Docker Container') {
             steps {
                 sh '''
-                    source venv/bin/activate
-                    chmod +x deploy.sh
-                    ./deploy.sh
+                    docker stop flask-container || true
+                    docker rm flask-container || true
+                    docker run -d -p 5000:5000 --name flask-container flask-app:latest
                 '''
             }
         }

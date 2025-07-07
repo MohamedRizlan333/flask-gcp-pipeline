@@ -4,17 +4,26 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git branch: 'main', url: 'https://github.com/MohamedRizlan333/jenkins-gcp-pipeline.git'
+                git branch: 'main', url: 'https://github.com/MoahmedRizlan333/jenkins-gcp-pipeline.git'
             }
         }
-        stage('Install Dependencies') {
+        stage('Setup Python Environment') {
             steps {
-                sh 'pip3 install -r requirements.txt'
+                sh '''
+                    python3 -m venv venv
+                    source venv/bin/activate
+                    pip install --upgrade pip
+                    pip install -r requirements.txt
+                '''
             }
         }
-        stage('Deploy to GCP VM') {
+        stage('Deploy') {
             steps {
-                sh './deploy.sh'
+                sh '''
+                    source venv/bin/activate
+                    chmod +x deploy.sh
+                    ./deploy.sh
+                '''
             }
         }
     }

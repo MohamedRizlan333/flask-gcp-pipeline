@@ -17,6 +17,7 @@ pipeline {
         stage('Copy Files to GCP') {
             steps {
                 bat 'scp -i C:\\Users\\user\\Desktop\\j\\id_rsa -o StrictHostKeyChecking=no -r * rizlanmohamed32@34.171.220.84:/home/rizlanmohamed32/app'
+
             }
         }
 

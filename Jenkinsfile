@@ -1,31 +1,26 @@
 pipeline {
     agent any
 
+    environment {
+        GOOGLE_APPLICATION_CREDENTIALS = 'C:\\jenkins-gcp\\gcp-key.json'
+    }
+
     stages {
-        stage('Clone Repo') {
+        stage('Authenticate with GCP') {
             steps {
-                git branch: 'main', url: 'https://github.com/MohamedRizlan333/jenkins-gcp-pipeline.git'
+                bat 'gcloud auth activate-service-account --key-file=%GOOGLE_APPLICATION_CREDENTIALS%'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Copy Files to GCP VM') {
             steps {
-                bat 'docker build -t mohamedrizlan/devops-project .'
+                bat 'gcloud compute scp --recurse * rizlanmohamed32@jenakins-vm:/home/rizlanmohamed32/app --zone=your-vm-zone --project=your-project-id'
             }
         }
 
-        stage('Copy Files to GCP') {
+        stage('Run Docker on VM') {
             steps {
-                bat 'scp -i C:\\ProgramData\\Jenkins\\.ssh\\id_rsa -o StrictHostKeyChecking=no -r * rizlanmohamed32@34.171.220.84:/home/rizlanmohamed32/app'
-
-            }
-        }
-
-        stage('Run on GCP') {
-            steps {
-                bat 'scp -i C:\\ProgramData\\Jenkins\\.ssh\\id_rsa -o StrictHostKeyChecking=no -r * rizlanmohamed32@34.171.220.84:/home/rizlanmohamed32/app'
-
-
+                bat 'gcloud compute ssh rizlanmohamed32@jenakins-vm --zone=your-vm-zone --command="cd /home/rizlanmohamed32/app && docker build -t mohamedrizlan/devops-project . && docker run -d -p 5000:5000 mohamedrizlan/devops-project"'
             }
         }
     }

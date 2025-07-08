@@ -4,13 +4,13 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git credentialsId: 'github-token', url: 'https://github.com/MoahmedRizlan333/jenkins-gcp-pipeline.git'
+                git branch: 'main', url: 'https://github.com/MohamedRizlan333/jenkins-gcp-pipeline.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t mohamedrizlan/devops-project -f app/Dockerfile app/'
+                bat 'docker build -t mohamedrizlan/devops-project .'
             }
         }
 

@@ -2,38 +2,27 @@ pipeline {
     agent any
 
     stages {
-        stage('Clone Repository') {
+        stage('Clone Repo') {
             steps {
-                git branch: 'main', url: 'https://github.com/MohamedRizlan333/flask-gcp-pipeline.git'
+                git branch: 'main', url: 'https://github.com/MohamedRizlan333/jenkins-gcp-pipeline.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t mohamedrizlan/gcp-vm .'
+                bat 'docker build -t mohamedrizlan/devops-project .'
             }
         }
 
-        stage('Push to GCP VM via SSH') {
+        stage('Copy Files to GCP') {
             steps {
-                bat '''
-               bat 'scp -i C:\\Users\\user\\Desktop\\j\\id_rsa -o StrictHostKeyChecking=no -r * rizlanmohamed32@34.171.220.84:/home/rizlanmohamed32/app'
-
-                '''
+                bat 'scp -i C:\\Users\\user\\Desktop\\j\\id_rsa -o StrictHostKeyChecking=no -r * rizlanmohamed32@34.171.220.84:/home/rizlanmohamed32/app'
             }
         }
 
-        stage('Run on GCP VM') {
+        stage('Run on GCP') {
             steps {
-                bat '''
-                ssh -i id_rsa -o StrictHostKeyChecking=no rizlanmohamed32@34.171.220.84 "
-                    cd /home/your-user/app &&
-                    docker stop flask-container || true &&
-                    docker rm flask-container || true &&
-                    docker build -t mohamedrizlan/devops-project . &&
-                    docker run -d -p 5000:5000 --name flask-container mohamedrizlan/gcp-vm
-                "
-                '''
+                bat 'ssh -i C:\\Users\\user\\Desktop\\j\\id_rsa -o StrictHostKeyChecking=no rizlanmohamed32@34.171.220.84 "cd /home/rizlanmohamed32/app && docker build -t mohamedrizlan/devops-project . && docker run -d -p 5000:5000 mohamedrizlan/devops-project"'
             }
         }
     }

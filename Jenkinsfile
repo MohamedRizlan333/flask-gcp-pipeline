@@ -10,7 +10,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t flask-app:latest .'
+                bat 'docker build -t mohamedrizlan/devops-project -f app/Dockerfile app/'
             }
         }
 
@@ -19,7 +19,7 @@ pipeline {
                 bat '''
                 docker stop flask-container || exit 0
                 docker rm flask-container || exit 0
-                docker run -d -p 5000:5000 --name flask-container flask-app:latest
+                docker run -d -p 5000:5000 --name flask-container mohamedrizlan/devops-project
                 '''
             }
         }

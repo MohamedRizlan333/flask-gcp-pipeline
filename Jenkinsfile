@@ -23,7 +23,8 @@ pipeline {
 
         stage('Run on GCP') {
             steps {
-                bat 'ssh -i C:\\Users\\user\\Desktop\\j\\id_rsa -o StrictHostKeyChecking=no rizlanmohamed32@34.171.220.84 "cd /home/rizlanmohamed32/app && docker build -t mohamedrizlan/devops-project . && docker run -d -p 5000:5000 mohamedrizlan/devops-project"'
+                bat 'scp -i C:\\Users\\user\\Desktop\\j\\id_rsa -o StrictHostKeyChecking=no -r * rizlanmohamed32@34.171.220.84:/home/rizlanmohamed32/app'
+
             }
         }
     }

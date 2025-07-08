@@ -17,7 +17,8 @@ pipeline {
         stage('Push to GCP VM via SSH') {
             steps {
                 bat '''
-                scp -i id_rsa -o StrictHostKeyChecking=no -r * rizlanmohamed32@34.171.220.84:/home/rizlanmohamed32/app
+               bat 'scp -i C:\\Users\\user\\Desktop\\j\\id_rsa -o StrictHostKeyChecking=no -r * rizlanmohamed32@34.171.220.84:/home/rizlanmohamed32/app'
+
                 '''
             }
         }

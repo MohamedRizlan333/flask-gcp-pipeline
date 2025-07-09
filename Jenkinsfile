@@ -18,7 +18,8 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                bat 'docker build -t mohamedrizlan/gcp-vm .'
+                bat '"C:\\Program Files\\Docker\\Docker\\resources\\bin\\docker.exe" build -t mohamedrizlan/gcp-vm .'
+
             }
         }
 
